@@ -1,0 +1,6 @@
+﻿services:
+  userinterface:
+    image: userinterface
+    build:
+      context: .
+      dockerfile: UserInterface/Dockerfile

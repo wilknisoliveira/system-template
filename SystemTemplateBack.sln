@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterface\UserInterface.csproj", "{93684BE1-BF7B-480A-B024-23D79C693D0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8E15A50-3E2B-4266-9431-AE9A76CEABF2}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra", "Infra\Infra.csproj", "{FCC08A70-BD09-4F8F-88C5-22DF211C403D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Auth\Auth.csproj", "{A8EBCCB6-21CD-4083-8DB2-6690D0E48D46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93684BE1-BF7B-480A-B024-23D79C693D0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93684BE1-BF7B-480A-B024-23D79C693D0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93684BE1-BF7B-480A-B024-23D79C693D0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93684BE1-BF7B-480A-B024-23D79C693D0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCC08A70-BD09-4F8F-88C5-22DF211C403D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC08A70-BD09-4F8F-88C5-22DF211C403D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC08A70-BD09-4F8F-88C5-22DF211C403D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC08A70-BD09-4F8F-88C5-22DF211C403D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8EBCCB6-21CD-4083-8DB2-6690D0E48D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8EBCCB6-21CD-4083-8DB2-6690D0E48D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8EBCCB6-21CD-4083-8DB2-6690D0E48D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8EBCCB6-21CD-4083-8DB2-6690D0E48D46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
