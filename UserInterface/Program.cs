@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Infra.Context;
 using Auth.Domain;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +17,20 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString,
-        b => b.MigrationsAssembly("Infra")));
+        assembly => assembly.MigrationsAssembly("Infra")));
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthorization();
+
+//HealthChecks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(connectionString, name: "Postgres Check", tags: new string[] { "db", "data" });
+
+builder.Services.AddHealthChecksUI()
+    .AddInMemoryStorage();
 
 var app = builder.Build();
 
@@ -48,6 +57,18 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGroup("/auth").MapIdentityApi<IdentityUser>();
+
+//Health Check
+app.UseHealthChecks("/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseHealthChecksUI(options =>
+{
+    options.UIPath = "/healthDashboard";
+});
 
 app.UseHttpsRedirection();
 
