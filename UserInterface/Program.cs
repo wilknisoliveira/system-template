@@ -4,10 +4,25 @@ using Infra.Context;
 using Auth.Domain;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Logs
+builder.Logging.ClearProviders();
+var logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File(
+        "Logs/logs.txt", 
+        rollingInterval: RollingInterval.Day, 
+        retainedFileCountLimit: 7, 
+        fileSizeLimitBytes: 10_000_000, // 10 MB
+        rollOnFileSizeLimit: true)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
