@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Infra.Context;
 using Auth.Domain;
 using HealthChecks.UI.Client;
+using Infra.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 using UserInterface.ExceptionHandler;
@@ -68,6 +69,8 @@ builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
         .AllowAnyHeader();
 }));
 
+builder.Services.AddRepositories();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -106,10 +109,22 @@ app.UseHealthChecksUI(options =>
     options.UIPath = "/healthDashboard";
 });
 
+//Exception Handler
+app.UseExceptionHandler(_ => { });
+
+//Cors
+app.UseCors();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
 
 app.Run();
