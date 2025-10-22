@@ -69,6 +69,7 @@ builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
         .AllowAnyHeader();
 }));
 
+//Assembly Extensions for dependency injection
 builder.Services.AddRepositories();
 
 var app = builder.Build();
