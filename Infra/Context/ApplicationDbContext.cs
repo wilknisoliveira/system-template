@@ -3,4 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Context;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext(options);
+public class ApplicationDbContext : IdentityDbContext
+{
+    public ApplicationDbContext() { }
+    
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+};
