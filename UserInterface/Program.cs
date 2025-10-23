@@ -80,20 +80,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwaggerUI(options =>
         options.SwaggerEndpoint("/openapi/v1.json", "System Template Back"));
-    
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
-    
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    if (!await roleManager.RoleExistsAsync(Roles.Admin))
-    {
-        await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
-    }
-    if (!await roleManager.RoleExistsAsync(Roles.Member))
-    {
-        await roleManager.CreateAsync(new IdentityRole(Roles.Member));
-    }
 }
 
 app.MapGroup("/auth").MapIdentityApi<IdentityUser>();
@@ -113,6 +99,9 @@ app.UseHealthChecksUI(options =>
 //Exception Handler
 app.UseExceptionHandler(_ => { });
 
+// Seed Database
+await DatabaseSeeder.SeedAsync(app.Services);
+
 //Cors
 app.UseCors();
 
@@ -121,11 +110,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
-}
 
 app.Run();
