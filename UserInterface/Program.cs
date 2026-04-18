@@ -62,11 +62,16 @@ builder.Services.AddHealthChecksUI()
     .AddInMemoryStorage();
 
 //Cors
-builder.Services.AddCors( options => options.AddDefaultPolicy(builder =>
+var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"] ?? "";
+var origins = allowedOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+builder.Services.AddCors(options => options.AddDefaultPolicy(builder =>
 {
-    builder.AllowAnyOrigin()
+    builder.WithOrigins(origins.Length > 0 ? origins : ["http://localhost:3000"])
         .AllowAnyMethod()
-        .AllowAnyHeader();
+        .WithHeaders(["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin", "Cookie"])
+        .AllowCredentials()
+        .SetPreflightMaxAge(TimeSpan.FromHours(1));
 }));
 
 //Assembly Extensions for dependency injection
