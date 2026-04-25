@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 using UserInterface.ExceptionHandler;
 using UserInterface.Swagger;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,12 @@ builder.Logging.AddSerilog(logger);
 builder.Configuration.AddEnvironmentVariables()
     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Support for requests with enum description
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});;
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi(options =>
 {
